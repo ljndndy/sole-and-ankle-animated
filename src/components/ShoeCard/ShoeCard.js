@@ -95,6 +95,7 @@ const Image = styled.img`
     transform-origin: center 80%;
 
     &:hover {
+      transition: transform 250ms ease-out;
       transform: scale(1.1);
     }
   }
