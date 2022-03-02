@@ -31,6 +31,7 @@ const ShoeCard = ({
       ? 'new-release'
       : 'default'
 
+  // Shine speed should not really be dependent on type but on the size of the flag.
   return (
     <Link href={`/shoe/${slug}`}>
       <Wrapper
