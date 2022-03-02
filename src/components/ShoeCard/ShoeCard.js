@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components/macro';
+import styled, { keyframes } from 'styled-components/macro';
 
 import { WEIGHTS } from '../../constants';
 import { formatPrice, pluralize, isNewShoe } from '../../utils';
@@ -33,7 +33,11 @@ const ShoeCard = ({
 
   return (
     <Link href={`/shoe/${slug}`}>
-      <Wrapper>
+      <Wrapper
+      style={{
+        '--shine-speed': variant === 'on-sale' ? '500ms' : '1000ms'
+      }}
+      >
         <ImageWrapper>
           <ImageViewport>
             <Image alt="" src={imageSrc} />
@@ -74,8 +78,6 @@ const Link = styled.a`
   text-decoration: none;
   color: inherit;
 `;
-
-const Wrapper = styled.article``;
 
 const ImageWrapper = styled.div`
   position: relative;
@@ -138,6 +140,20 @@ const Flag = styled.div`
   font-weight: ${WEIGHTS.bold};
   color: var(--color-white);
   border-radius: 2px;
+  overflow: hidden;
+
+  /* Used for shine animation */
+  &:before {
+    content: '';
+    height: 100%;
+    width: 100%;
+    display: block;
+    position: absolute;
+    left: 0;
+    background: linear-gradient(to right, transparent, white, transparent);
+    opacity: 25%;
+    transform: skewX(-25deg) translateX(-100%);
+  }
 `;
 
 const SaleFlag = styled(Flag)`
@@ -145,6 +161,24 @@ const SaleFlag = styled(Flag)`
 `;
 const NewFlag = styled(Flag)`
   background-color: var(--color-secondary);
+`;
+
+const shine = keyframes`
+  from {
+    transform: skewX(-25deg) translateX(-100%);
+  }
+  to {
+    transform: skewX(-25deg) translateX(100%);
+  }
+`;
+
+const Wrapper = styled.article`
+  @media (prefers-reduced-motion: no-preference) {
+    &:hover ${Flag}:before {
+      animation: ${shine} var(--shine-speed) ease-out forwards;
+    }
+  }
+
 `;
 
 export default ShoeCard;
