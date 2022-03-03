@@ -13,26 +13,24 @@ const MobileMenu = ({ isOpen, onDismiss }) => {
   return (
     <Overlay isOpen={isOpen} onDismiss={onDismiss}>
       <Content aria-label="Menu">
-        <ContentFadeContainer>
           <CloseButton onClick={onDismiss}>
             <Icon id="close" />
             <VisuallyHidden>Dismiss menu</VisuallyHidden>
           </CloseButton>
           <Filler />
           <Nav>
-            <NavLink href="/sale">Sale</NavLink>
-            <NavLink href="/new">New&nbsp;Releases</NavLink>
-            <NavLink href="/men">Men</NavLink>
-            <NavLink href="/women">Women</NavLink>
-            <NavLink href="/kids">Kids</NavLink>
-            <NavLink href="/collections">Collections</NavLink>
+            <NavLink href="/sale" style={{ '--stagger-timing': '1'}}>Sale</NavLink>
+            <NavLink href="/new" style={{ '--stagger-timing': '1.5'}}>New&nbsp;Releases</NavLink>
+            <NavLink href="/men" style={{ '--stagger-timing': '2'}}>Men</NavLink>
+            <NavLink href="/women" style={{ '--stagger-timing': '2.5'}}>Women</NavLink>
+            <NavLink href="/kids" style={{ '--stagger-timing': '3'}}>Kids</NavLink>
+            <NavLink href="/collections" style={{ '--stagger-timing': '3.5'}}>Collections</NavLink>
           </Nav>
           <Footer>
-            <SubLink href="/terms">Terms and Conditions</SubLink>
-            <SubLink href="/privacy">Privacy Policy</SubLink>
-            <SubLink href="/contact">Contact Us</SubLink>
+            <SubLink href="/terms" style={{ '--stagger-timing': '6'}}>Terms and Conditions</SubLink>
+            <SubLink href="/privacy" style={{ '--stagger-timing': '7'}}>Privacy Policy</SubLink>
+            <SubLink href="/contact" style={{ '--stagger-timing': '8'}}>Contact Us</SubLink>
           </Footer>
-        </ContentFadeContainer>
       </Content>
     </Overlay>
   );
@@ -58,16 +56,16 @@ const Overlay = styled(DialogOverlay)`
   justify-content: flex-end;
 
   @media (prefers-reduced-motion: no-preference) {
-    animation: ${overlayBackgroundFade} 500ms;
+    animation: ${overlayBackgroundFade} 1000ms;
   }
 `;
 
 const drawer = keyframes`
   from {
-    width: 0;
+    transform: translateX(100%);
   }
   to {
-    width: 300px;
+    transform: translateX(0);
   }
 `;
 
@@ -76,12 +74,12 @@ const Content = styled(DialogContent)`
   width: 300px;
   height: 100%;
   padding: 24px 32px;
-
-  /* These declarations moved to the inner container for now */
-  /* display: flex;
-  flex-direction: column; */
+  display: flex;
+  flex-direction: column;
+  
   @media (prefers-reduced-motion: no-preference) {
-    animation: ${drawer} 300ms cubic-bezier(.11,.12,.37,1.26);
+    will-change: transform;
+    animation: ${drawer} 400ms cubic-bezier(.11,.12,0,.83);
   }
 `;
 
@@ -92,24 +90,13 @@ const CloseButton = styled(UnstyledButton)`
   padding: 16px;
 `;
 
-const contentFadeIn = keyframes`
+const fadeIn = keyframes`
   from {
     opacity: 0;
+    transform: translateX(25%);
   }
   to {
     opacity: 1;
-  }
-`;
-
-const ContentFadeContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 100%;
-
-  @media (prefers-reduced-motion: no-preference) {
-    animation: ${contentFadeIn} 500ms both;
-    animation-delay: 200ms;
   }
 `;
 
@@ -125,9 +112,15 @@ const NavLink = styled.a`
   text-decoration: none;
   font-size: 1.125rem;
   text-transform: uppercase;
-
+  
   &:first-of-type {
     color: var(--color-secondary);
+  }
+  
+  @media (prefers-reduced-motion: no-preference) {
+    will-change: transform;
+    animation: ${fadeIn} 300ms both;
+    animation-delay: calc(var(--stagger-timing) * 100ms);
   }
 `;
 
@@ -146,6 +139,12 @@ const SubLink = styled.a`
   color: var(--color-gray-700);
   font-size: 0.875rem;
   text-decoration: none;
+  
+  @media (prefers-reduced-motion: no-preference) {
+    will-change: transform;
+    animation: ${fadeIn} 400ms both;
+    animation-delay: calc(var(--stagger-timing) * 100ms);
+  }
 `;
 
 export default MobileMenu;
