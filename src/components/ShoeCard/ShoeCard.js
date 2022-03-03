@@ -33,12 +33,10 @@ const ShoeCard = ({
 
   // Shine speed should not really be dependent on type but on the size of the flag.
   return (
-    <Link href={`/shoe/${slug}`}>
-      <Wrapper
-      style={{
-        '--shine-speed': variant === 'on-sale' ? '500ms' : '1000ms'
-      }}
-      >
+    <Link href={`/shoe/${slug}`} style={{
+      '--shine-speed': variant === 'on-sale' ? '500ms' : '1000ms'
+    }}>
+      <Wrapper>
         <ImageWrapper>
           <ImageViewport>
             <Image alt="" src={imageSrc} />
@@ -80,6 +78,8 @@ const Link = styled.a`
   color: inherit;
 `;
 
+const Wrapper = styled.article``;
+
 const ImageWrapper = styled.div`
   position: relative;
 `;
@@ -97,7 +97,7 @@ const Image = styled.img`
     transition: transform 500ms;
     transform-origin: center 80%;
 
-    &:hover {
+    ${Link}:hover & {
       transition: transform 250ms ease-out;
       transform: scale(1.1);
     }
@@ -129,6 +129,15 @@ const SalePrice = styled.span`
   color: var(--color-primary);
 `;
 
+const shine = keyframes`
+  from {
+    transform: skewX(-25deg) translateX(-100%);
+  }
+  to {
+    transform: skewX(-25deg) translateX(100%);
+  }
+`;
+
 const Flag = styled.div`
   position: absolute;
   top: 12px;
@@ -155,6 +164,12 @@ const Flag = styled.div`
     opacity: 25%;
     transform: skewX(-25deg) translateX(-100%);
   }
+
+  @media (prefers-reduced-motion: no-preference) {
+    ${Link}:hover &:before {
+      animation: ${shine} var(--shine-speed) ease-out both;
+    }
+  }
 `;
 
 const SaleFlag = styled(Flag)`
@@ -162,24 +177,6 @@ const SaleFlag = styled(Flag)`
 `;
 const NewFlag = styled(Flag)`
   background-color: var(--color-secondary);
-`;
-
-const shine = keyframes`
-  from {
-    transform: skewX(-25deg) translateX(-100%);
-  }
-  to {
-    transform: skewX(-25deg) translateX(100%);
-  }
-`;
-
-const Wrapper = styled.article`
-  @media (prefers-reduced-motion: no-preference) {
-    &:hover ${Flag}:before {
-      animation: ${shine} var(--shine-speed) ease-out forwards;
-    }
-  }
-
 `;
 
 export default ShoeCard;
