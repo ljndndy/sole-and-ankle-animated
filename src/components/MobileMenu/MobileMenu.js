@@ -13,24 +13,26 @@ const MobileMenu = ({ isOpen, onDismiss }) => {
   return (
     <Overlay isOpen={isOpen} onDismiss={onDismiss}>
       <Content aria-label="Menu">
-        <CloseButton onClick={onDismiss}>
-          <Icon id="close" />
-          <VisuallyHidden>Dismiss menu</VisuallyHidden>
-        </CloseButton>
-        <Filler />
-        <Nav>
-          <NavLink href="/sale">Sale</NavLink>
-          <NavLink href="/new">New&nbsp;Releases</NavLink>
-          <NavLink href="/men">Men</NavLink>
-          <NavLink href="/women">Women</NavLink>
-          <NavLink href="/kids">Kids</NavLink>
-          <NavLink href="/collections">Collections</NavLink>
-        </Nav>
-        <Footer>
-          <SubLink href="/terms">Terms and Conditions</SubLink>
-          <SubLink href="/privacy">Privacy Policy</SubLink>
-          <SubLink href="/contact">Contact Us</SubLink>
-        </Footer>
+        <ContentFadeContainer>
+          <CloseButton onClick={onDismiss}>
+            <Icon id="close" />
+            <VisuallyHidden>Dismiss menu</VisuallyHidden>
+          </CloseButton>
+          <Filler />
+          <Nav>
+            <NavLink href="/sale">Sale</NavLink>
+            <NavLink href="/new">New&nbsp;Releases</NavLink>
+            <NavLink href="/men">Men</NavLink>
+            <NavLink href="/women">Women</NavLink>
+            <NavLink href="/kids">Kids</NavLink>
+            <NavLink href="/collections">Collections</NavLink>
+          </Nav>
+          <Footer>
+            <SubLink href="/terms">Terms and Conditions</SubLink>
+            <SubLink href="/privacy">Privacy Policy</SubLink>
+            <SubLink href="/contact">Contact Us</SubLink>
+          </Footer>
+        </ContentFadeContainer>
       </Content>
     </Overlay>
   );
@@ -55,7 +57,9 @@ const Overlay = styled(DialogOverlay)`
   display: flex;
   justify-content: flex-end;
 
-  animation: ${overlayBackgroundFade} 500ms;
+  @media (prefers-reduced-motion: no-preference) {
+    animation: ${overlayBackgroundFade} 500ms;
+  }
 `;
 
 const drawer = keyframes`
@@ -72,10 +76,13 @@ const Content = styled(DialogContent)`
   width: 300px;
   height: 100%;
   padding: 24px 32px;
-  display: flex;
-  flex-direction: column;
 
-  animation: ${drawer} 300ms cubic-bezier(.11,.12,.37,1.26);
+  /* These declarations moved to the inner container for now */
+  /* display: flex;
+  flex-direction: column; */
+  @media (prefers-reduced-motion: no-preference) {
+    animation: ${drawer} 300ms cubic-bezier(.11,.12,.37,1.26);
+  }
 `;
 
 const CloseButton = styled(UnstyledButton)`
@@ -83,6 +90,27 @@ const CloseButton = styled(UnstyledButton)`
   top: 10px;
   right: 0;
   padding: 16px;
+`;
+
+const contentFadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`;
+
+const ContentFadeContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+
+  @media (prefers-reduced-motion: no-preference) {
+    animation: ${contentFadeIn} 500ms both;
+    animation-delay: 200ms;
+  }
 `;
 
 const Nav = styled.nav`
