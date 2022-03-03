@@ -97,7 +97,8 @@ const Image = styled.img`
     transition: transform 500ms;
     transform-origin: center 80%;
 
-    ${Link}:hover & {
+    ${Link}:hover &,
+    ${Link}:focus & {
       transition: transform 250ms ease-out;
       transform: scale(1.1);
     }
@@ -166,7 +167,8 @@ const Flag = styled.div`
   }
 
   @media (prefers-reduced-motion: no-preference) {
-    ${Link}:hover &:before {
+    ${Link}:hover &:before,
+    ${Link}:focus &:before {
       animation: ${shine} var(--shine-speed) ease-out both;
     }
   }
