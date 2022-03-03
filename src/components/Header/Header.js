@@ -20,12 +20,30 @@ const Header = () => {
           <Logo />
         </LogoWrapper>
         <DesktopNav>
-          <NavLink href="/sale">Sale</NavLink>
-          <NavLink href="/new">New&nbsp;Releases</NavLink>
-          <NavLink href="/men">Men</NavLink>
-          <NavLink href="/women">Women</NavLink>
-          <NavLink href="/kids">Kids</NavLink>
-          <NavLink href="/collections">Collections</NavLink>
+          <NavLink href="/sale">
+            <LinkText>Sale</LinkText>
+            <HoverLinkText>Sale</HoverLinkText>
+          </NavLink>
+          <NavLink href="/new">
+            <LinkText>New&nbsp;Releases</LinkText>
+            <HoverLinkText>New&nbsp;Releases</HoverLinkText>
+          </NavLink>
+          <NavLink href="/men">
+            <LinkText>Men</LinkText>
+            <HoverLinkText>Men</HoverLinkText>
+          </NavLink>
+          <NavLink href="/women">
+            <LinkText>Women</LinkText>
+            <HoverLinkText>Women</HoverLinkText>
+          </NavLink>
+          <NavLink href="/kids">
+            <LinkText>Kids</LinkText>
+            <HoverLinkText>Kids</HoverLinkText>
+          </NavLink>
+          <NavLink href="/collections">
+            <LinkText>Collections</LinkText>
+            <HoverLinkText>Collections</HoverLinkText>
+          </NavLink>
         </DesktopNav>
         <MobileActions>
           <ShoppingBagButton>
@@ -114,15 +132,34 @@ const Filler = styled.div`
   }
 `;
 
+const LinkText = styled.span`
+  display: block;
+  transition: transform 400ms ease-in-out;
+`;
+
+const HoverLinkText = styled(LinkText)`
+  position: absolute;
+  font-weight: ${WEIGHTS.bold};
+`;
+
 const NavLink = styled.a`
   font-size: 1.125rem;
   text-transform: uppercase;
   text-decoration: none;
   color: var(--color-gray-900);
   font-weight: ${WEIGHTS.medium};
+  overflow: hidden;
+  position: relative;
 
   &:first-of-type {
     color: var(--color-secondary);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    &:hover > ${LinkText} {
+      transform: translateY(-100%);
+      transition: transform 200ms ease-in-out;
+    }
   }
 `;
 
