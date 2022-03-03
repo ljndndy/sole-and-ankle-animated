@@ -70,8 +70,10 @@ const drawer = keyframes`
 `;
 
 const Content = styled(DialogContent)`
+  --overfill: 16px;
   background: white;
-  width: 300px;
+  width: calc(300px + var(--overfill));
+  margin-right: calc(var(--overfill) * -1);
   height: 100%;
   padding: 24px 32px;
   display: flex;
@@ -79,14 +81,14 @@ const Content = styled(DialogContent)`
   
   @media (prefers-reduced-motion: no-preference) {
     will-change: transform;
-    animation: ${drawer} 400ms cubic-bezier(.11,.12,0,.83);
+    animation: ${drawer} 400ms cubic-bezier(.11,.12,.05,1.19);
   }
 `;
 
 const CloseButton = styled(UnstyledButton)`
   position: absolute;
   top: 10px;
-  right: 0;
+  right: var(--overfill);
   padding: 16px;
 `;
 
