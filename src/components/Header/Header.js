@@ -22,27 +22,27 @@ const Header = () => {
         <DesktopNav>
           <NavLink href="/sale">
             <LinkText>Sale</LinkText>
-            <HoverLinkText>Sale</HoverLinkText>
+            <HoverLinkText aria-hidden="true">Sale</HoverLinkText>
           </NavLink>
           <NavLink href="/new">
             <LinkText>New&nbsp;Releases</LinkText>
-            <HoverLinkText>New&nbsp;Releases</HoverLinkText>
+            <HoverLinkText aria-hidden="true">New&nbsp;Releases</HoverLinkText>
           </NavLink>
           <NavLink href="/men">
             <LinkText>Men</LinkText>
-            <HoverLinkText>Men</HoverLinkText>
+            <HoverLinkText aria-hidden="true">Men</HoverLinkText>
           </NavLink>
           <NavLink href="/women">
             <LinkText>Women</LinkText>
-            <HoverLinkText>Women</HoverLinkText>
+            <HoverLinkText aria-hidden="true">Women</HoverLinkText>
           </NavLink>
           <NavLink href="/kids">
             <LinkText>Kids</LinkText>
-            <HoverLinkText>Kids</HoverLinkText>
+            <HoverLinkText aria-hidden="true">Kids</HoverLinkText>
           </NavLink>
           <NavLink href="/collections">
             <LinkText>Collections</LinkText>
-            <HoverLinkText>Collections</HoverLinkText>
+            <HoverLinkText aria-hidden="true">Collections</HoverLinkText>
           </NavLink>
         </DesktopNav>
         <MobileActions>
@@ -134,12 +134,21 @@ const Filler = styled.div`
 
 const LinkText = styled.span`
   display: block;
-  transition: transform 400ms ease-in-out;
+  transition: transform 400ms ease-in-out, opacity 400ms ease-in-out;
 `;
 
 const HoverLinkText = styled(LinkText)`
   position: absolute;
   font-weight: ${WEIGHTS.bold};
+
+  /* Overlay with opacity-based transition for users who prefer reduced motion */
+  top: 0;
+  opacity: 0;
+
+  @media (prefers-reduced-motion: no-preference) {
+    top: auto;
+    opacity: revert;
+  }
 `;
 
 const NavLink = styled.a`
@@ -153,6 +162,11 @@ const NavLink = styled.a`
 
   &:first-of-type {
     color: var(--color-secondary);
+  }
+
+  /* Overlay with opacity-based transition for users who prefer reduced motion */
+  &:hover > ${LinkText} {
+    opacity: 1;
   }
 
   @media (prefers-reduced-motion: no-preference) {
